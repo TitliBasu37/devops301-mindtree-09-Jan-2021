@@ -5,7 +5,7 @@ variable "key_name" {
 
 
 variable "pvt_key" {
-  default = "/root/.ssh/terraform-key.pem"
+  default = "/root/.ssh/awskeypair.pem"
 }
 
 
