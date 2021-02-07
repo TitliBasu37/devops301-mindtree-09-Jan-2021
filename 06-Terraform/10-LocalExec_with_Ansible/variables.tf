@@ -1,11 +1,11 @@
 
 variable "key_name" {
-  default = " awskeypair.pem"
+  default = "awskeypair.pem"
 }
 
 
 variable "pvt_key" {
-  default = "/root/.ssh/ awskeypair.pem"
+  default = "/root/.ssh/awskeypair.pem"
 }
 
 
