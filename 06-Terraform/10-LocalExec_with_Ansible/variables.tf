@@ -1,6 +1,6 @@
 
 variable "key_name" {
-  default = "awskeypair.pem"
+  default = "awskeypair"
 }
 
 
