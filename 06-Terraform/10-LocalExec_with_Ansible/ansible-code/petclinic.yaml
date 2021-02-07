@@ -3,4 +3,5 @@
   name: "Petclinic App Server Deployment"
   become: yes
   roles:
+  -server-common
   - petclinic
