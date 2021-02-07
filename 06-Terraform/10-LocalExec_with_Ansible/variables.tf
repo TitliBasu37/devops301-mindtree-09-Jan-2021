@@ -1,11 +1,11 @@
 
 variable "key_name" {
-  default = "terraform-key"
+  default = " awskeypair.pem"
 }
 
 
 variable "pvt_key" {
-  default = "/root/.ssh/terraform-key.pem"
+  default = "/root/.ssh/ awskeypair.pem"
 }
 
 
