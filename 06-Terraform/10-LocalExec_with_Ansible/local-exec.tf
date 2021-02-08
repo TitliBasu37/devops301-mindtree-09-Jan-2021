@@ -75,7 +75,7 @@ resource "aws_instance" "stage-app" {
      create_before_destroy = true
   } 
   tags = {
-       Name = "Dev-app-test"
+       Name = "stage-app-test"
     }
 
 
