@@ -60,10 +60,41 @@ resource "aws_instance" "dev-app" {
        "sudo apt-get install python sshpass -y"
       ]
 
-
   }
 }
 
+resource "aws_instance" "stage-app" {
+  ami               = "ami-0ebc8f6f580a04647"
+  #availability_zone = data.aws_availability_zones.zones_east.names[count.index]
+  instance_type     = "t2.micro"
+  #count             = 1
+  key_name          = var.key_name
+  vpc_security_group_ids = [var.sg_id] 
+ 
+  lifecycle {
+     create_before_destroy = true
+  } 
+  tags = {
+       Name = "Dev-app-test"
+    }
+
+
+  connection {
+    type = "ssh"
+    user = "ubuntu"
+    private_key = file(var.pvt_key)
+    host   = self.public_ip
+   }
+   
+
+  provisioner "remote-exec" {
+     inline = [
+       "sudo apt-get update",
+       "sudo apt-get install python sshpass -y"
+      ]
+
+  }
+}
 
 resource "null_resource" "ansible-main" {
   provisioner "local-exec" {
@@ -75,7 +106,17 @@ resource "null_resource" "ansible-main" {
         ansible-playbook  --key-file=${var.pvt_key} -i jenkins-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
       EOT
   }
+    provisioner "local-exec" {
+    command = <<EOT
+           > java-ci.ini;
+        echo "[java-ci]"| tee -a java-ci.ini;
+        export ANSIBLE_HOST_KEY_CHECKING=False;
+        echo "${aws_instance.stage-app.public_ip}" | tee -a java-ci.ini;
+        ansible-playbook  --key-file=${var.pvt_key} -i java-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
+      EOT
+  }
   depends_on = [aws_instance.dev-app]
+  depends_on = [aws_instance.stage-app]
 }
 
 
@@ -83,4 +124,7 @@ resource "null_resource" "ansible-main" {
 
 output "frontend_public_ips" {
   value = aws_instance.dev-app.public_ip
+}
+output "frontend_public_ips" {
+  value = aws_instance.stage-app.public_ip
 }
