@@ -106,6 +106,10 @@ resource "null_resource" "ansible-main" {
         ansible-playbook  --key-file=${var.pvt_key} -i jenkins-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
       EOT
   }
+depends_on = [aws_instance.dev-app]
+}
+
+resource "null_resource" "ansible-worker" {
     provisioner "local-exec" {
     command = <<EOT
            > java-ci.ini;
@@ -115,7 +119,7 @@ resource "null_resource" "ansible-main" {
         ansible-playbook  --key-file=${var.pvt_key} -i java-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
       EOT
   }
-  depends_on = [aws_instance.dev-app]
+  
   depends_on = [aws_instance.stage-app]
 }
 
@@ -125,6 +129,6 @@ resource "null_resource" "ansible-main" {
 output "frontend_public_ips" {
   value = aws_instance.dev-app.public_ip
 }
-output "frontend_public_ips" {
+output "stage_public_ips" {
   value = aws_instance.stage-app.public_ip
 }
