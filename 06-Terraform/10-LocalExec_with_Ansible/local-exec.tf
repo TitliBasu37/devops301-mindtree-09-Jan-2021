@@ -61,13 +61,13 @@ resource "aws_instance" "dev-app" {
 
 
 resource "null_resource" "ansible-main" {
-  count = var.instance_count
   provisioner "local-exec" {
     command = <<EOT
            > jenkins-ci.ini;
       echo "[jenkins-ci]" | tee -a jenkins-ci.ini;
         export ANSIBLE_HOST_KEY_CHECKING=False;
-        echo "${element(aws_instance.dev-app.*.public_ip, count.index)}" >> jenkins-ci.ini;
+        echo "${element(aws_instance.dev-app.*.public_ip, 0)}" | tee -a jenkins-ci.ini;
+        echo "${element(aws_instance.dev-app.*.public_ip, 1)}" | tee -a jenkins-ci.ini;
         ansible-playbook  --key-file=${var.pvt_key} -i jenkins-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
       EOT
   }
