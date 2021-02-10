@@ -18,9 +18,6 @@ variable "instance_count" {
 }
 
 variable "ami" {
-  type = "map"
-
-  default = {
-    us-east-2 = "ami-01aab85a5e4a5a0fe"
-  }
+  default ="ami-01aab85a5e4a5a0fe"
+  
 }
