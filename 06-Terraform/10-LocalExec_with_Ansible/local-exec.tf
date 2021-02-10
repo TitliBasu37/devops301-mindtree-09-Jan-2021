@@ -67,7 +67,7 @@ resource "null_resource" "ansible-main" {
            > jenkins-ci.ini;
         echo "[jenkins-ci]"| tee -a jenkins-ci.ini;
         export ANSIBLE_HOST_KEY_CHECKING=False;
-        echo "element(aws_instance.dev-app.*.public_ip, count.index)" | tee -a jenkins-ci.ini;
+        echo "${element(aws_instance.dev-app.*.public_ip, count.index)}" | tee -a jenkins-ci.ini;
         ansible-playbook  --key-file=${var.pvt_key} -i jenkins-ci.ini -u ubuntu ./ansible-code/petclinic.yaml  -v
       EOT
   }
