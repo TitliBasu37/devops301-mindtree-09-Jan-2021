@@ -17,7 +17,7 @@ variable "instance_count" {
   default = "2"
 }
 
-variable "amis" {
+variable "ami" {
   type = "map"
 
   default = {
