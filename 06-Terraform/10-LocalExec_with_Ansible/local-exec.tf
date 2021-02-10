@@ -46,8 +46,10 @@ resource "aws_instance" "dev-app" {
 
 
   connection {
+    type  = "ssh"
     user = "ubuntu"
     private_key = file(var.pvt_key)
+    host = "${element(aws_instance.dev-app.*.public_ip, count.index)}"
  
    }
    
