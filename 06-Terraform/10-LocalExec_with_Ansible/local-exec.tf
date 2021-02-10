@@ -31,10 +31,9 @@ data "aws_ami" "myami" {
 
 
 resource "aws_instance" "dev-app" {
-  ami               = "ami-0ebc8f6f580a04647"
-  #availability_zone = data.aws_availability_zones.zones_east.names[count.index]
+  count = "${var.instance_count}"
+  ami           = "${var.ami}"
   instance_type     = "t2.micro"
-  #count             = 1
   key_name          = var.key_name
   vpc_security_group_ids = [var.sg_id] 
  
