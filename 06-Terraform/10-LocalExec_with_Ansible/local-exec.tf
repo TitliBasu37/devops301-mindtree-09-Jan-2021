@@ -32,7 +32,7 @@ data "aws_ami" "myami" {
 
 resource "aws_instance" "dev-app" {
   count = var.instance_count
-  ami           = var.ami
+  ami               = "ami-0ebc8f6f580a04647"
   instance_type     = "t2.micro"
   key_name          = var.key_name
   vpc_security_group_ids = [var.sg_id] 
