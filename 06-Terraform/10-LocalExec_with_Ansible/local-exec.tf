@@ -41,7 +41,7 @@ resource "aws_instance" "dev-app" {
      create_before_destroy = true
   } 
   tags = {
-       Name = "Dev-app-test"
+       Name = "Dev-app-worker-${var.instance_count}"
     }
 
 
@@ -81,5 +81,5 @@ resource "null_resource" "ansible-main" {
 
 
 output "frontend_public_ips" {
-  value = aws_instance.dev-app.public_ip
+  value = aws_instance.dev-app.*.public_ip
 }
