@@ -31,8 +31,8 @@ data "aws_ami" "myami" {
 
 
 resource "aws_instance" "dev-app" {
-  count = "${var.instance_count}"
-  ami           = "${var.ami}"
+  count = var.instance_count
+  ami           = var.ami
   instance_type     = "t2.micro"
   key_name          = var.key_name
   vpc_security_group_ids = [var.sg_id] 
@@ -41,7 +41,7 @@ resource "aws_instance" "dev-app" {
      create_before_destroy = true
   } 
   tags = {
-       Name = "Dev-app-worker-${var.instance_count}"
+       Name = format("Dev-app-worker%d", count.index + 1)
     }
 
 
@@ -49,8 +49,7 @@ resource "aws_instance" "dev-app" {
     type  = "ssh"
     user = "ubuntu"
     private_key = file(var.pvt_key)
-    host = "${element(aws_instance.dev-app.*.public_ip, count.index)}"
- 
+    host = element(aws_instance.dev-app.*.public_ip, count.index)
    }
    
 
