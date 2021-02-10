@@ -61,6 +61,7 @@ resource "aws_instance" "dev-app" {
 
 
 resource "null_resource" "ansible-main" {
+  count = var.instance_count
   provisioner "local-exec" {
     command = <<EOT
            > jenkins-ci.ini;
