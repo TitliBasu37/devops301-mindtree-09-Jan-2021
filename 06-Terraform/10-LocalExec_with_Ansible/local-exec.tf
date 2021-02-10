@@ -36,10 +36,6 @@ resource "aws_instance" "dev-app" {
   instance_type     = "t2.micro"
   key_name          = var.key_name
   vpc_security_group_ids = [var.sg_id] 
- 
-  lifecycle {
-     create_before_destroy = true
-  } 
   tags = {
        Name = format("Dev-app-worker%d", count.index + 1)
     }
