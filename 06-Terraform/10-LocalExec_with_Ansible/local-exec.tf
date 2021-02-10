@@ -49,7 +49,7 @@ resource "aws_instance" "dev-app" {
     type = "ssh"
     user = "ubuntu"
     private_key = file(var.pvt_key)
-    host   = self.public_ip
+    host   = aws_instance.dev-app.*.public_ip
    }
    
 
