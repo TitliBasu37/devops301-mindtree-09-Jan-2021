@@ -10,7 +10,7 @@ variable "pvt_key" {
 
 
 variable "sg_id" {
-  default = "sg-02b2c644d114edbf9"
+  default = "sg-00343899b75666c41"
 }
 
 variable "instance_count" {
